@@ -1,15 +1,23 @@
-function countSubstrings(s) {
-  let count = 0;
-  for (let i = 0; i < s.length; i++) {
-    extendPalindrome(i, i);
-    extendPalindrome(i, i + 1);
-  }
-  return count;
-  function extendPalindrome(left, right) {
-    while (left >= 0 && right < s.length && s[left] === s[right]) {
-      count++;
-      left--;
-      right++;
+function zigzagLevelOrder(root) {
+  if (!root) return [];
+  const result = [];
+  let isReverse = false;
+  const queue = [root];
+  while (queue.length) {
+    const size = queue.length;
+    const level = [];
+    for (let i = 0; i < size; i++) {
+      const node = queue.shift();
+      if (isReverse) {
+        level.unshift(node.val);
+      } else {
+        level.push(node.val);
+      }
+      if (node.left) queue.push(node.left);
+      if (node.right) queue.push(node.right);
     }
+    result.push(level);
+    isReverse = !isReverse;
   }
+  return result;
 }
